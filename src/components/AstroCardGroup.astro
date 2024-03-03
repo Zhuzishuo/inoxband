@@ -1,0 +1,286 @@
+---
+const {
+    id,
+    title,
+    iconUrl,
+    btnText,
+    btnHref,
+    content,
+    width,
+    titleSize,
+    lineHeight,
+    borderColor,
+    isShowPagination
+} = Astro.props;
+
+const iconHidden = iconUrl === null || iconUrl === undefined || iconUrl === "";
+const footerHidden = isShowPagination === null || isShowPagination === undefined || isShowPagination === "";
+const paginatBtnGroupId = id + '_paginatBtnGroupId';
+const paginatBtnGroupTextId = id + '_paginatBtnGroupTextId';
+---
+
+<astro-card
+    data-id={id}
+    data-width={width}
+    data-content={content}
+    data-title-size={titleSize}
+    data-line-height={lineHeight}
+    data-border-color={borderColor}
+    data-is-show-pagination={isShowPagination}
+>
+    <div id={id} class="card">
+        <div class="card-header">
+            <p class="card-header-title">
+                <img src={iconUrl} hidden={iconHidden} />{title}
+            </p>
+            <a
+                type="button"
+                class="card-header-button btn btn-link"
+                href={btnHref}>{btnText}</a
+            >
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+        <div class="card-footer" hidden={footerHidden}>
+            <div></div>
+            <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group me-2" role="group">
+                    <img src="/icons/icon_chevron_left.png" hidden={iconHidden} />
+                </div>
+                <div class="btn-group me-2" role="group" id={paginatBtnGroupId}>
+                </div>
+                <div class="btn-group me-3" role="group">
+                    <img src="/icons/icon_chevron_right.png" hidden={iconHidden} />
+                </div>
+                <div class="btn-group me-4" role="group">
+                    <div class="input-group-text" id={paginatBtnGroupTextId} style="border: 0">跳至</div>
+                    <input type="text" class="form-control" placeholder="请输入内容" style="width: 105px" aria-describedby={paginatBtnGroupTextId}>
+                    <div class="input-group-text">/20页</div>
+                </div>
+            </div>
+            <div></div>
+        </div>
+    </div>
+</astro-card>
+
+<style>
+    .card {
+        border-radius: 0;
+        border: none;
+    }
+    .card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: var(--white);
+        height: 63px;
+    }
+    .card-header-title {
+        margin-bottom: 0;
+        color: var(--tone);
+        font-size: 15px;
+        font-weight: 500;
+        font-family: PingFang SC, PingFang SC;
+    }
+    .card-header-button {
+        --bs-btn-font-family: Helvetica, Helvetica;
+        --bs-btn-font-size: 13px;
+        --bs-btn-font-weight: 400;
+        --bs-btn-color: rgba(0, 0, 0, 0.45);
+        --bs-btn-hover-color: rgba(0, 0, 0, 0.75);
+        --bs-btn-active-color: rgba(0, 0, 0, 0.75);
+        --btn-line-height: 15px;
+        outline: none;
+        text-decoration: none;
+    }
+    .card-footer {
+        display: flex;
+		align-items: center;
+		justify-content: space-between;
+    }
+    .card-footer .btn-toolbar .btn-group div,button {
+        border-radius: 0
+    }
+</style>
+
+<script>
+    let that;
+
+    class AstroCard extends HTMLElement {
+        constructor() {
+            super();
+
+            that = this;
+
+            // 卡片ID
+            const id = this.dataset.id;
+
+            // 卡片尺寸
+            const width = this.dataset.width;
+            const height = this.dataset.height;
+            const card = document.querySelector("#" + id) as HTMLElement;
+            if (width !== null && width !== undefined) {
+                card.style.width = width;
+            }
+            if (height !== null && height !== undefined) {
+                card.style.height = height;
+            }
+
+            // 卡片信息
+            const data = this.dataset.content;
+            const content = data !== null && data !== undefined ? JSON.parse(data) : undefined;
+            // 处理卡片内容列表
+            handleContant(id, content);
+
+            // 分页标识
+            const isShowPagination = this.dataset.isShowPagination;
+            if (isShowPagination !== null && isShowPagination !== undefined && isShowPagination === "true") {
+                handlePagination(id, content);
+            }
+        }
+    }
+
+    function handleContant(id, content) {
+        // 列表组节点
+        const listGroup = document.querySelector("#" + id + " .list-group");
+        if (
+            content !== null &&
+            content !== undefined &&
+            listGroup !== null &&
+            listGroup !== undefined
+        ) {
+            const titleSize = that.dataset.titleSize;
+            const lineHeight = that.dataset.lineHeight;
+            const borderColor = that.dataset.borderColor;
+            for (let index = 0; index < content.length; index++) {
+                const element = content[index];
+                // 图片链接
+                const src = element["src"];
+                // 文章链接
+                const href = element["href"];
+                // 文章标题
+                const title = element["title"];
+                // 文章简述
+                const description = element["description"];
+                // 文章作者
+                const author = element["author"];
+                if (
+                    src !== null &&
+                    src !== undefined &&
+                    href !== null &&
+                    href !== undefined &&
+                    title !== null &&
+                    title !== undefined &&
+                    author !== null &&
+                    author !== undefined
+                ) {
+                    const img = document.createElement("img");
+                    img.classList.add("img-fluid");
+                    img.src = src;
+                    img.style["border-radius"] = "4px";
+                    img.style["object-fit"] = "cover";
+                    img.style["padding"] = "var(--bs-card-spacer-y) 0";
+
+                    const imgDiv = document.createElement("div");
+                    imgDiv.classList.add("col-md-4");
+                    imgDiv.style["text-align"] = "center";
+                    imgDiv.appendChild(img);
+
+                    const a = document.createElement("a");
+                    // 文本显示不超过2行
+                    a.style.overflow = "hidden";
+                    a.style["text-overflow"] = "ellipsis";
+                    a.style.display = "-webkit-box";
+                    a.style["-webkit-box-orient"] = "vertical";
+                    a.style["-webkit-line-clamp"] = "2";
+                    // 文本字体
+                    a.style.color = "rgba(0,0,0)";
+                    // 去除下划线
+                    a.style.outline = "none";
+                    a.style["text-decoration"] = "none";
+                    a.href = href;
+                    a.innerHTML = title;
+
+                    let titleEle;
+                    if (titleSize !== null && titleSize !== undefined) {
+                        titleEle = document.createElement(titleSize);
+                    } else {
+                        titleEle = document.createElement("h5");
+                    }
+                    titleEle.classList.add("card-title");
+                    titleEle.appendChild(a);
+
+                    const authorSmall = document.createElement("small");
+                    authorSmall.classList.add("text-muted");
+                    authorSmall.innerHTML = author;
+
+                    const authorP = document.createElement("p");
+                    authorP.classList.add("card-author");
+                    authorP.appendChild(authorSmall);
+
+                    const cardBody = document.createElement("div");
+                    cardBody.classList.add("card-body");
+                    cardBody.appendChild(titleEle);
+                    cardBody.appendChild(authorP);
+
+                    if (description !== null && description !== undefined) {
+                        const descriptionP = document.createElement("p");
+                        descriptionP.classList.add("card-text");
+                        descriptionP.style.overflow = "hidden";
+                        descriptionP.style["text-overflow"] = "ellipsis";
+                        descriptionP.style.display = "-webkit-box";
+                        descriptionP.style["-webkit-box-orient"] = "vertical";
+                        descriptionP.style["-webkit-line-clamp"] = "2";
+                        descriptionP.innerHTML = description;
+                        cardBody.appendChild(descriptionP);
+                    }
+                    
+                    const textDiv = document.createElement("div");
+                    textDiv.classList.add("col-md-8");
+                    textDiv.appendChild(cardBody);
+
+                    const row = document.createElement("div");
+                    row.classList.add("row");
+                    row.classList.add("g-0");
+                    row.appendChild(imgDiv);
+                    row.appendChild(textDiv);
+
+                    const listGroupItem = document.createElement("div");
+                    listGroupItem.classList.add("list-group-item");
+                    if (borderColor !== null && borderColor !== undefined) {
+                        listGroupItem.style["border-color"] = borderColor;
+                    }
+
+                    listGroupItem.appendChild(row);
+                    listGroup.appendChild(listGroupItem);
+                }
+            }
+        }
+    }
+
+    function handlePagination(id, content) {
+        const paginatBtnGroupId = id + '_paginatBtnGroupId';
+        let btnNum;
+        if (content === null || content === undefined || content.length === 0) {
+            btnNum = 1;
+        } else {
+            btnNum = content.length / 20;
+            if (content.length / 20 > 0) {
+                btnNum++;
+            }
+        }
+        const btnGroupDiv = document.querySelector('#' + paginatBtnGroupId) as HTMLElement;
+        for (let index = 0; index < btnNum; index++) {
+            const button = document.createElement("button");
+            button.setAttribute("type", "button");
+            button.classList.add("btn");
+            button.classList.add("btn-light");
+            button.style["border-radius"] = "0";
+            button.style["color"] = "var(--tone)";
+            button.innerHTML = index + 1 + '';
+            btnGroupDiv.appendChild(button);
+        }
+        
+    }
+
+    customElements.define("astro-card", AstroCard);
+</script>

@@ -1,0 +1,68 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import AstroCarousel from '../components/AstroCarouselForIndex.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { imgs, content, content2, content3, pageInfo } from '../content/mockData';
+import AstroListGroup from '../components/AstroListGroup.astro';
+import AstroCardGroup from '../components/AstroCardGroup.astro';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header title={SITE_TITLE} />
+		<main>
+			<div class="row">
+				<div class="carousel">
+					<AstroCarousel imgs={imgs} id="xxx" height="394px"></AstroCarousel>
+				</div>
+				<div class="purchasing-quotes">
+					<AstroListGroup id="www" title="采购行情" iconUrl="/icons/icon_title_caigouhangqing .png" btnText="查看更多" width="340px" height="394px" content={content3} borderHeight="72px" borderColor="var(--white)"></AstroListGroup>
+				</div>
+			</div>
+			<div class="row">
+				<div class="industry-news">
+					<AstroCardGroup id="yyy" title="行业新闻" iconUrl="/icons/icon_title_news.png" btnText="查看更多" btnHref="/blog" content={content} isShowPagination="true"></AstroCardGroup>
+				</div>
+				<div class="company-profile">
+					<AstroCardGroup id="zzz" title="公司介绍" iconUrl="/icons/icon_title_pingpaihezuo.png" btnText="查看更多" width="340px" content={content2} titleSize="h6" borderColor="var(--white)"></AstroCardGroup>
+				</div>
+			</div>
+		</main>
+		<Footer />
+	</body>
+
+	<style>
+		.row {
+			display: flex;
+		}
+		.carousel {
+			width: 700px;
+			height: 394px;
+			padding-right: 15px;
+		}
+		.purchasing-quotes {
+			width: 340px;
+			height: 394px;
+			padding-left: 15px;
+		}
+		.industry-news {
+			width: 700px;
+			padding-top: 16px;
+			padding-right: 15px;
+		}
+		.industry-news-pagination {
+			padding: 20px;
+		}
+		.company-profile {
+			width: 340px;
+			padding-top: 16px;
+			padding-left: 15px;
+		}
+	</style>
+</html>

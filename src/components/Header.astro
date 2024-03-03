@@ -1,0 +1,100 @@
+---
+import HeaderLink from './HeaderLink.astro';
+---
+
+<header>
+	<nav>
+		<div class="logo">
+			<img src="/icons/logo.png">
+		</div>
+		<div class="internal-links">
+			<HeaderLink href="/">INFO</HeaderLink>
+			<HeaderLink href="/MAT">MAT</HeaderLink>
+			<HeaderLink href="/MC">M/C</HeaderLink>
+			<HeaderLink href="/TECH">TECH</HeaderLink>
+			<HeaderLink href="/HR">H/R</HeaderLink>
+			<HeaderLink href="/RC">RC</HeaderLink>
+			<HeaderLink href="/SVC">SVC</HeaderLink>
+		</div>
+		<div class="search">
+			<form>
+				<input type="text" placeholder="search">
+				<button type="submit"></button>
+			</form>
+			<HeaderLink href="/login">Log in</HeaderLink>
+		</div>
+	</nav>
+</header>
+<style>
+	header {
+		margin: 0;
+		padding: 0 13.19%;
+		height: 80px;
+		background: var(--tone);
+		box-shadow: 0 2px 8px rgba(var(--black), 5%);
+	}
+
+	nav {
+		position: relative;
+	}
+	nav, nav div {
+		margin: 0;
+		padding: 0;
+		height: 80px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.logo img {
+		margin: 24px 0;
+		padding: 0;
+		width: 178px;
+		height: 32px;
+		border-radius: 0px 0px 0px 0px;
+		opacity: 1; /* 透明度 */
+	}
+
+	.internal-links {
+		position: absolute;
+		transform: translate(-50%, -50%);
+		top: 50%;
+		left: 50%;
+	}
+
+	.search {
+		position: relative;
+	}
+	.search input {
+		width: 148px;
+		height: 40px;
+		border-radius: 26px;
+		text-indent: 10px;
+		background: var(--white);
+		border: 2px solid var(--white);
+		transition: .3s linear; /* 过渡效果 */
+		float: right;
+		outline: none; /* 去掉点击输入框后的边框 */
+	}
+	.search input[type=text]::placeholder {
+		padding: 2px;
+        color: var(--tone);
+    }
+	.search input:focus {
+		width: 200px;
+	}
+	.search button {
+		position: absolute;
+		top: 25px;
+		right: 75px;
+		background: none;
+		border: none; /* 去掉边框 */
+		outline: none; /* 去掉点击按钮后的边框 */
+	}
+	.search button:before{
+		content: "\f002";
+		font-family: FontAwesome;
+		font-size: larger;
+		color: var(--tone);
+	}
+</style>

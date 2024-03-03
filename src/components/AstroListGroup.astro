@@ -1,0 +1,181 @@
+---
+const {
+    id,
+    title,
+    iconUrl,
+    width,
+    height,
+    btnText,
+    btnHref,
+    content,
+    borderHeight,
+    borderColor,
+} = Astro.props;
+
+const iconHidden = iconUrl === undefined || iconUrl === "" || iconUrl === null;
+---
+
+<astro-list
+    data-id={id}
+    data-width={width}
+    data-height={height}
+    data-content={content}
+    data-border-height={borderHeight}
+    data-border-color={borderColor}
+>
+    <div id={id} class="card">
+        <div class="card-header">
+            <p class="card-header-title">
+                <img src={iconUrl} hidden={iconHidden} />{title}
+            </p>
+            <a
+                type="button"
+                class="card-header-button btn btn-link"
+                href={btnHref}>{btnText}</a
+            >
+        </div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush"></ul>
+        </div>
+    </div>
+</astro-list>
+
+<style>
+    .card {
+        border-radius: 0;
+        border: none;
+    }
+    .card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: var(--white);
+        height: 64px;
+    }
+    .card-header-title {
+        margin-bottom: 0;
+        color: var(--tone);
+        font-size: 15px;
+        font-weight: 500;
+        font-family: PingFang SC, PingFang SC;
+    }
+    .card-header-button {
+        --bs-btn-font-family: Helvetica, Helvetica;
+        --bs-btn-font-size: 13px;
+        --bs-btn-font-weight: 400;
+        --bs-btn-color: rgba(0, 0, 0, 0.45);
+        --bs-btn-hover-color: rgba(0, 0, 0, 0.75);
+        --bs-btn-active-color: rgba(0, 0, 0, 0.75);
+        --btn-line-height: 15px;
+        outline: none;
+        text-decoration: none;
+    }
+    .card-body {
+        margin-top: 8px;
+        padding: var(--bs-card-spacer-y), 0px;
+        overflow: hidden;
+    }
+</style>
+
+<script>
+    class AstroList extends HTMLElement {
+        constructor() {
+            super();
+
+            // 卡片ID
+            const id = this.dataset.id;
+
+            // 卡片尺寸
+            const width = this.dataset.width;
+            const height = this.dataset.height;
+            const card = document.querySelector("#" + id) as HTMLElement;
+            if (width !== null && width !== undefined) {
+                card.style.width = width;
+            }
+            if (height !== null && height !== undefined) {
+                card.style.height = height;
+            }
+
+            // 卡片信息
+            const data = this.dataset.content;
+            const content =
+                data !== null && data !== undefined
+                    ? JSON.parse(data)
+                    : undefined;
+            const borderHeight = this.dataset.borderHeight;
+            const borderColor = this.dataset.borderColor;
+            // 列表组节点
+            const listGroup = document.querySelector("#" + id + " .list-group");
+            if (
+                content !== null &&
+                content !== undefined &&
+                listGroup !== null &&
+                listGroup !== undefined
+            ) {
+                for (let index = 0; index < content.length; index++) {
+                    const element = content[index];
+                    // 文章链接
+                    const href = element["href"];
+                    // 文章标题
+                    const title = element["title"];
+                    if (
+                        href !== null &&
+                        href !== undefined &&
+                        title !== null &&
+                        title !== undefined
+                    ) {
+                        const imgDiv = document.createElement("div");
+                        imgDiv.classList.add("card-list-icon");
+                        const img = document.createElement("img");
+                        img.src = "/icons/icon_circle.png";
+                        imgDiv.appendChild(img);
+
+                        const textDiv = document.createElement("div");
+                        imgDiv.classList.add("card-list-link");
+                        const a = document.createElement("a");
+                        // 文本显示不超过2行
+                        a.style.overflow = "hidden";
+                        a.style["text-overflow"] = "ellipsis";
+                        a.style.display = "-webkit-box";
+                        a.style["-webkit-box-orient"] = "vertical";
+                        a.style["-webkit-line-clamp"] = "2";
+                        // 文本字体
+                        a.style["font-family"] = "PingFang SC, PingFang SC";
+                        a.style["font-size"] = "14px";
+                        a.style["font-weight"] = "400";
+                        a.style.color = "rgba(0,0,0,0.9)";
+                        a.style["line-height"] = "24px";
+                        // padding
+                        a.style["padding-top"] = "2px";
+                        a.style["padding-left"] = "8px";
+                        // 去除下划线
+                        a.style.outline = "none";
+                        a.style["text-decoration"] = "none";
+                        a.href = href;
+                        a.innerHTML = title;
+                        textDiv.appendChild(a);
+
+                        const listGroupItem = document.createElement("div");
+                        listGroupItem.classList.add("list-group-item");
+                        listGroupItem.style.display = "flex";
+                        if (
+                            borderHeight !== null &&
+                            borderHeight !== undefined
+                        ) {
+                            listGroupItem.style.height = borderHeight;
+                        }
+                        if (borderColor !== null && borderColor !== undefined) {
+                            listGroupItem.style["border-color"] = borderColor;
+                        }
+
+                        listGroupItem.appendChild(imgDiv);
+                        listGroupItem.appendChild(textDiv);
+                        listGroup.appendChild(listGroupItem);
+                    }
+                }
+            }
+        }
+    }
+
+    customElements.define("astro-list", AstroList);
+</script>
