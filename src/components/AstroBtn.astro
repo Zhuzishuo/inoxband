@@ -1,0 +1,43 @@
+---
+const { href, src, class: className, ...props } = Astro.props;
+
+const { pathname } = Astro.url;
+
+let href2 = href + Astro.url.href.replace('/' + Astro.url.origin + '/', '');
+
+const isActive = href2 === pathname || href2 === pathname.replace(/\/$/, '');
+const isHidden = src === undefined || src === '';
+---
+
+<a href={href} class:list={[className, { active: isActive }]} {...props}>
+	<img src={src} hidden={isHidden}/> <slot />
+</a>
+<style>
+	a {
+		padding: 1.6em 1em;
+		display: inline-block;
+		text-decoration: none;
+		font-size: 14px;
+		font-family: PingFang SC, PingFang SC;
+		font-weight: 400;
+		color: var(--white);
+		border-bottom: 4px solid transparent;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	a.active {
+		text-decoration: none;
+		font-size: 16px;
+		font-family: PingFang SC, PingFang SC;
+		font-weight: 600;
+		border-bottom-color: var(--white);
+	}
+	a img {
+		padding: 0;
+		margin: 0;
+		margin-right: 2px;
+		height: 1em;
+		width: 1em;
+	}
+</style>

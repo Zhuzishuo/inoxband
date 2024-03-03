@@ -1,4 +1,6 @@
 ---
+import icon_circle from "../assets/icons/icon_circle.png";
+
 const {
     id,
     title,
@@ -22,6 +24,7 @@ const iconHidden = iconUrl === undefined || iconUrl === "" || iconUrl === null;
     data-content={content}
     data-border-height={borderHeight}
     data-border-color={borderColor}
+    data-image-src={icon_circle.src}
 >
     <div id={id} class="card">
         <div class="card-header">
@@ -104,6 +107,7 @@ const iconHidden = iconUrl === undefined || iconUrl === "" || iconUrl === null;
                     : undefined;
             const borderHeight = this.dataset.borderHeight;
             const borderColor = this.dataset.borderColor;
+            const imageSrc = this.dataset.imageSrc;
             // 列表组节点
             const listGroup = document.querySelector("#" + id + " .list-group");
             if (
@@ -127,7 +131,9 @@ const iconHidden = iconUrl === undefined || iconUrl === "" || iconUrl === null;
                         const imgDiv = document.createElement("div");
                         imgDiv.classList.add("card-list-icon");
                         const img = document.createElement("img");
-                        img.src = "/icons/icon_circle.png";
+                        if (imageSrc !== null && imageSrc !== undefined) {
+                            img.src = imageSrc;
+                        }
                         imgDiv.appendChild(img);
 
                         const textDiv = document.createElement("div");

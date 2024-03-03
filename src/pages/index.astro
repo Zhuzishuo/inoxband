@@ -1,4 +1,8 @@
 ---
+import icon_title_caigouhangqing from "../assets/icons/icon_title_caigouhangqing.png";
+import icon_title_news from "../assets/icons/icon_title_news.png";
+import icon_title_pingpaihezuo from "../assets/icons/icon_title_pingpaihezuo.png";
+
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -22,15 +26,15 @@ import AstroCardGroup from '../components/AstroCardGroup.astro';
 					<AstroCarousel imgs={imgs} id="xxx" height="394px"></AstroCarousel>
 				</div>
 				<div class="purchasing-quotes">
-					<AstroListGroup id="www" title="采购行情" iconUrl="/icons/icon_title_caigouhangqing .png" btnText="查看更多" width="340px" height="394px" content={content3} borderHeight="72px" borderColor="var(--white)"></AstroListGroup>
+					<AstroListGroup id="www" title="采购行情" iconUrl={icon_title_caigouhangqing.src} btnText="查看更多" width="340px" height="394px" content={content3} borderHeight="72px" borderColor="var(--white)"></AstroListGroup>
 				</div>
 			</div>
 			<div class="row">
 				<div class="industry-news">
-					<AstroCardGroup id="yyy" title="行业新闻" iconUrl="/icons/icon_title_news.png" btnText="查看更多" btnHref="/blog" content={content} isShowPagination="true"></AstroCardGroup>
+					<AstroCardGroup id="yyy" title="行业新闻" iconUrl={icon_title_news.src} btnText="查看更多" btnHref="/blog" content={content} isShowPagination="true"></AstroCardGroup>
 				</div>
 				<div class="company-profile">
-					<AstroCardGroup id="zzz" title="公司介绍" iconUrl="/icons/icon_title_pingpaihezuo.png" btnText="查看更多" width="340px" content={content2} titleSize="h6" borderColor="var(--white)"></AstroCardGroup>
+					<AstroCardGroup id="zzz" title="公司介绍" iconUrl={icon_title_pingpaihezuo.src} btnText="查看更多" width="340px" content={content2} titleSize="h6" borderColor="var(--white)"></AstroCardGroup>
 				</div>
 			</div>
 		</main>

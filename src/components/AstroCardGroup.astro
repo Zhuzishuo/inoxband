@@ -1,4 +1,7 @@
 ---
+import icon_chevron_left from "../assets/icons/icon_chevron_left.png";
+import icon_chevron_right from "../assets/icons/icon_chevron_right.png";
+
 const {
     id,
     title,
@@ -44,12 +47,12 @@ const paginatBtnGroupTextId = id + '_paginatBtnGroupTextId';
             <div></div>
             <div class="btn-toolbar" role="toolbar">
                 <div class="btn-group me-2" role="group">
-                    <img src="/icons/icon_chevron_left.png" hidden={iconHidden} />
+                    <img src={icon_chevron_left.src} hidden={iconHidden} />
                 </div>
                 <div class="btn-group me-2" role="group" id={paginatBtnGroupId}>
                 </div>
                 <div class="btn-group me-3" role="group">
-                    <img src="/icons/icon_chevron_right.png" hidden={iconHidden} />
+                    <img src={icon_chevron_right.src} hidden={iconHidden} />
                 </div>
                 <div class="btn-group me-4" role="group">
                     <div class="input-group-text" id={paginatBtnGroupTextId} style="border: 0">跳至</div>

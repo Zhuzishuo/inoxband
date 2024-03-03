@@ -1,27 +1,35 @@
 ---
-import HeaderLink from './HeaderLink.astro';
+import logo from "../assets/icons/logo.png";
+import icon_Nav_SOU_2x from "../assets/icons/icon_Nav_SOU_2x.png";
+import icon_Nav_mat_2x from "../assets/icons/icon_Nav_mat_2x.png";
+import icon_Nav_MC_2x from "../assets/icons/icon_Nav_MC_2x.png";
+import icon_Nav_THCH_2x from "../assets/icons/icon_Nav_THCH_2x.png";
+import icon_Nav_HR_2x from "../assets/icons/icon_Nav_HR_2x.png";
+import icon_Nav_RC_2x from "../assets/icons/icon_Nav_RC_2x.png";
+import icon_Nav_SVC_2x from "../assets/icons/icon_Nav_SVC_2x.png";
+import AstroBtn from './AstroBtn.astro';
 ---
 
 <header>
 	<nav>
 		<div class="logo">
-			<img src="/icons/logo.png">
+			<img src={logo.src}>
 		</div>
 		<div class="internal-links">
-			<HeaderLink href="/">INFO</HeaderLink>
-			<HeaderLink href="/MAT">MAT</HeaderLink>
-			<HeaderLink href="/MC">M/C</HeaderLink>
-			<HeaderLink href="/TECH">TECH</HeaderLink>
-			<HeaderLink href="/HR">H/R</HeaderLink>
-			<HeaderLink href="/RC">RC</HeaderLink>
-			<HeaderLink href="/SVC">SVC</HeaderLink>
+			<AstroBtn href="/" src={icon_Nav_SOU_2x.src}>INFO</AstroBtn>
+			<AstroBtn href="/MAT" src={icon_Nav_mat_2x.src}>MAT</AstroBtn>
+			<AstroBtn href="/MC" src={icon_Nav_MC_2x.src}>M/C</AstroBtn>
+			<AstroBtn href="/TECH" src={icon_Nav_THCH_2x.src}>TECH</AstroBtn>
+			<AstroBtn href="/HR" src={icon_Nav_HR_2x.src}>H/R</AstroBtn>
+			<AstroBtn href="/RC" src={icon_Nav_RC_2x.src}>RC</AstroBtn>
+			<AstroBtn href="/SVC" src={icon_Nav_SVC_2x.src}>SVC</AstroBtn>
 		</div>
 		<div class="search">
 			<form>
 				<input type="text" placeholder="search">
 				<button type="submit"></button>
 			</form>
-			<HeaderLink href="/login">Log in</HeaderLink>
+			<AstroBtn href="/login">Log in</AstroBtn>
 		</div>
 	</nav>
 </header>
