@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://example.com',
+  site: 'https://Zhuzishuo.github.io',
+  base: '/inoxband',
   integrations: [mdx(), sitemap()]
 });
