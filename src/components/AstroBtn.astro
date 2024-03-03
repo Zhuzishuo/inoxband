@@ -3,9 +3,7 @@ const { href, src, class: className, ...props } = Astro.props;
 
 const { pathname } = Astro.url;
 
-let href2 = href + Astro.url.href.replace('/' + Astro.url.origin + '/', '');
-
-const isActive = href2 === pathname || href2 === pathname.replace(/\/$/, '');
+const isActive = href === pathname || href === pathname.replace(/\/$/, '');
 const isHidden = src === undefined || src === '';
 ---
 
