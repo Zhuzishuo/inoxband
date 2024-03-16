@@ -1,28 +1,45 @@
 ---
-const { id, imgs, width, height } = Astro.props;
+const { id, slides, width, height } = Astro.props;
 
-const target = "#" + id;
+let imgs = slides !== null && slides !== undefined ? JSON.parse(slides) : [];
+for (let index = 0; index < imgs.length; index++) {
+    imgs[index]['active'] = index === 0 ? 'active': '';
+    imgs[index]['ariaCurrent'] = index === 0 ? 'true': '';
+    imgs[index]['index'] = index;
+}
 ---
 
-<astro-carousel
-    data-id={id}
-    data-width={width}
-    data-height={height}
-    data-imgs={imgs}
->
+<astro-carousel>
     <div
         id={id}
         class="carousel slide"
         data-bs-ride="carousel"
         data-bs-interval="1500"
+        style={`border-radius: 6px; overflow: hidden; width:${width}; height: ${height}`}
     >
-        <div class="carousel-indicators"></div>
-        <div class="carousel-inner"></div>
+        <div class="carousel-indicators">
+            {
+                imgs.map((img) => (
+                    <button type="button" data-bs-target={`#${id}`} data-bs-slide-to={img.index} class={img.active} aria-current={img.ariaCurrent} aria-label={`Slide${img.index}`}></button>
+                ))
+            }
+        </div>
+        <div class="carousel-inner">
+            {
+                imgs.map((img) => (
+                    <div class={`carousel-item ${img.active}`}>
+                        <a href={img.href}>
+                            <img src={img.src} class="d-block w-100" style="border-radius: 6px; object-fit: cover"/>
+                        </a>
+                    </div>
+                ))
+            }
+        </div>
 
         <button
             class="carousel-control-prev"
             type="button"
-            data-bs-target={target}
+            data-bs-target={`#${id}`}
             data-bs-slide="prev"
         >
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -31,7 +48,7 @@ const target = "#" + id;
         <button
             class="carousel-control-next"
             type="button"
-            data-bs-target={target}
+            data-bs-target={`#${id}`}
             data-bs-slide="next"
         >
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
@@ -40,99 +57,11 @@ const target = "#" + id;
     </div>
 </astro-carousel>
 
-<style>
-    .carousel {
-        border-radius: 6px;
-        overflow: hidden;
-    }
-</style>
-
 <script>
     class AstroCarousel extends HTMLElement {
         constructor() {
             super();
-
-            // 轮播图ID
-            const id = this.dataset.id;
-            const target = "#" + id;
-
-            // 卡片尺寸
-            const width = this.dataset.width;
-            const height = this.dataset.height;
-            const card = document.querySelector("#" + id) as HTMLElement;
-            if (width !== null && width !== undefined) {
-                card.style.width = width;
-            }
-            if (height !== null && height !== undefined) {
-                card.style.height = height;
-            }
-
-            // 图片信息
-            const data = this.dataset.imgs;
-            const imgs = data !== null && data !== undefined ? JSON.parse(data) : undefined;
-            // 轮播图节点
-            const carouselInner = document.querySelector("#" + id + " .carousel-inner");
-            const indicators = document.querySelector("#" + id + " .carousel-indicators");
-            if (
-                imgs !== null &&
-                imgs !== undefined &&
-                carouselInner !== null &&
-                carouselInner !== undefined &&
-                indicators !== null &&
-                indicators !== undefined
-            ) {
-                for (let index = 0; index < imgs.length; index++) {
-                    const element = imgs[index];
-                    // 图片跳转链接
-                    const href = element["href"];
-                    // 图片链接
-                    const src = element["src"];
-                    if (
-                        href !== null &&
-                        href !== undefined &&
-                        src !== null &&
-                        src !== undefined
-                    ) {
-                        const button = document.createElement("button");
-                        button.setAttribute("data-bs-target", target);
-                        button.setAttribute("data-bs-slide-to", index + "");
-                        button.setAttribute("type", "button");
-                        if (index === 0) {
-                            button.classList.add("active");
-                            button.setAttribute("aria-current", "true");
-                        }
-                        indicators.appendChild(button);
-
-                        const slide = document.createElement("div");
-                        slide.classList.add("carousel-item");
-                        if (index === 0) {
-                            slide.classList.add("active");
-                        }
-                        const a = createANode(href);
-                        const img = createImageNode(src);
-                        a.appendChild(img);
-                        slide.appendChild(a);
-                        carouselInner.appendChild(slide);
-                    }
-                }
-            }
         }
-    }
-
-    function createANode(href) {
-        const a = document.createElement("a");
-        a.setAttribute("href", href);
-        return a;
-    }
-
-    function createImageNode(src) {
-        const img = document.createElement("img");
-        img.classList.add("d-block");
-        img.classList.add("w-100");
-        img.src = src;
-        img.style["border-radius"] = "6px";
-        img.style["object-fit"] = "cover";
-        return img;
     }
 
     customElements.define("astro-carousel", AstroCarousel);

@@ -1,4 +1,4 @@
-export const carouselImgs = [ 
+export const carouselSlides = [ 
 	{ 
 		src: "https://media.istockphoto.com/id/1396844697/zh/%E7%85%A7%E7%89%87/wind-power-generation-clean-energy-concept-wind-tubines-in-holland.webp?s=2048x2048&w=is&k=20&c=VIz7LHFyqIyEiRRdTI6Zss48_hpdRDuFGhlBHIjNNSo=",
 		href: "https://media.istockphoto.com/id/1396844697/zh/%E7%85%A7%E7%89%87/wind-power-generation-clean-energy-concept-wind-tubines-in-holland.webp?s=2048x2048&w=is&k=20&c=VIz7LHFyqIyEiRRdTI6Zss48_hpdRDuFGhlBHIjNNSo="
@@ -12,7 +12,7 @@ export const carouselImgs = [
 		href: "https://media.istockphoto.com/id/1144416985/zh/%E7%85%A7%E7%89%87/%E6%97%A5%E8%90%BD%E6%99%82%E7%9A%84%E9%A2%A8%E5%8A%9B%E6%B8%A6%E8%BC%AA%E6%A9%9F.webp?s=2048x2048&w=is&k=20&c=2GuZs-Lb6FWUFxLdttFvfSqWNC6reb93npIdxeKyEi4="
 	}
 ];
-export const imgs = JSON.stringify(carouselImgs);
+export const slides = JSON.stringify(carouselSlides);
 
 export const cardContent = [ 
 	{ 
@@ -167,12 +167,3 @@ export const cardContent3 = [
 	}
 ];
 export const content3 = JSON.stringify(cardContent3);
-
-
-
-
-export const pageInfo = {
-	size: 3,
-	pages: 1,
-	current: 1
-}

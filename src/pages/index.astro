@@ -6,9 +6,9 @@ import icon_title_pingpaihezuo from "../assets/icons/icon_title_pingpaihezuo.png
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import AstroCarousel from '../components/AstroCarouselForIndex.astro';
+import AstroCarousel from '../components/AstroCarousel.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
-import { imgs, content, content2, content3, pageInfo } from '../content/mockData';
+import { slides, content, content2, content3 } from '../content/mockData';
 import AstroListGroup from '../components/AstroListGroup.astro';
 import AstroCardGroup from '../components/AstroCardGroup.astro';
 ---
@@ -23,7 +23,7 @@ import AstroCardGroup from '../components/AstroCardGroup.astro';
 		<main>
 			<div class="row">
 				<div class="carousel">
-					<AstroCarousel imgs={imgs} id="xxx" height="394px"></AstroCarousel>
+					<AstroCarousel slides={slides} id="xxx" height="394px"></AstroCarousel>
 				</div>
 				<div class="purchasing-quotes">
 					<AstroListGroup id="www" title="采购行情" iconUrl={icon_title_caigouhangqing.src} btnText="查看更多" width="340px" height="394px" content={content3} borderHeight="72px" borderColor="var(--white)"></AstroListGroup>
