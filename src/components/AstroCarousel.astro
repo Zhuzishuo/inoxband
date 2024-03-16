@@ -1,5 +1,5 @@
 ---
-const { id, slides, width, height } = Astro.props;
+const { id, slides, interval, width, height } = Astro.props;
 
 let imgs = slides !== null && slides !== undefined ? JSON.parse(slides) : [];
 for (let index = 0; index < imgs.length; index++) {
@@ -9,12 +9,15 @@ for (let index = 0; index < imgs.length; index++) {
 }
 ---
 
-<astro-carousel>
+<astro-carousel
+    data-id={id}
+    data-interval={interval}
+>
     <div
         id={id}
         class="carousel slide"
         data-bs-ride="carousel"
-        data-bs-interval="1500"
+        data-bs-interval={interval}
         style={`border-radius: 6px; overflow: hidden; width:${width}; height: ${height}`}
     >
         <div class="carousel-indicators">
@@ -58,9 +61,112 @@ for (let index = 0; index < imgs.length; index++) {
 </astro-carousel>
 
 <script>
+    let indexMap = {};
+    let timerId;
+
     class AstroCarousel extends HTMLElement {
         constructor() {
             super();
+
+            const id = this.dataset.id;
+            const interval = this.dataset.interval;
+
+            // 设置下标点击事件
+            const indicators = document.querySelector("#" + id + " .carousel-indicators") as HTMLElement;
+            const buttons = indicators.childNodes;
+            for (let index = 1; index < buttons.length - 1; index++) {
+                let button = buttons[index];
+                button.addEventListener("click", function () {
+                    changeCarouselItem(id, index);
+                })
+            }
+
+            // 缓存当前下标
+            if (id !== null && id !== undefined) {
+                indexMap[id] = {
+                    "currentIndex": 1,
+                    "lastIndex": buttons.length - 2
+                };
+            }
+
+            // 设置前进、后退按钮点击事件
+            const preBtn = document.querySelector("#" + id + " .carousel-control-prev") as HTMLElement;
+            preBtn.addEventListener("click", function () {
+                toPreItem(id);
+            });
+            const nextBtn = document.querySelector("#" + id + " .carousel-control-next") as HTMLElement;
+            nextBtn.addEventListener("click", function () {
+                toNextItem(id);
+            });
+
+            if (interval !== null && interval !== undefined) {
+                // 设置自动轮播
+                timerId = setInterval(function () {
+                    toNextItem(id);
+                }, Number(interval));
+
+                // 处理鼠标移入移出事件
+                const main = document.querySelector("#" + id) as HTMLElement;
+                main.onmouseover = function () {
+                    console.log(this)
+                    clearInterval(timerId);
+                }
+                main.onmouseout = function () {
+                    let _this = this as HTMLElement;
+                    timerId = setInterval(function () {
+                        toNextItem(_this.id);
+                    }, Number(interval));
+                }
+            }
+            
+        }
+    }
+
+    function toPreItem(id) {
+        let currentIndex = indexMap[id]["currentIndex"];
+        let newIndex = currentIndex - 1;
+        if (newIndex < 1) {
+            newIndex = indexMap[id]["lastIndex"];
+        }
+        changeCarouselItem(id, newIndex);
+    }
+
+    function toNextItem(id) {
+        let currentIndex = indexMap[id]["currentIndex"];
+        let newIndex = currentIndex + 1;
+        if (newIndex > indexMap[id]["lastIndex"]) {
+            newIndex = 1;
+        }
+        changeCarouselItem(id, newIndex);
+    }
+
+    function changeCarouselItem(id, index) {
+        if (indexMap[id] === null || indexMap[id] === undefined) {
+            return;
+        }
+        indexMap[id]["currentIndex"] = index;
+
+        const inners = document.querySelector("#" + id + " .carousel-inner") as HTMLElement;
+        const items = inners.childNodes;
+        for (let iindex = 1; iindex < items.length - 1; iindex++) {
+            let item = items[iindex] as HTMLElement;
+            if (iindex === index) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        }
+        const indicators = document.querySelector("#" + id + " .carousel-indicators") as HTMLElement;
+        const buttons = indicators.childNodes;
+        for (let iindex = 1; iindex < buttons.length - 1; iindex++) {
+            let button = buttons[iindex] as HTMLElement;
+            if (iindex === index) {
+                button.classList.add('active');
+                button.setAttribute("aria-current", 'true');
+            } else {
+                button.classList.remove('active');
+                button.removeAttribute("aria-current");
+            }
         }
     }
 
