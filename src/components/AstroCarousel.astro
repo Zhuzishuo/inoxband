@@ -108,7 +108,6 @@ for (let index = 0; index < imgs.length; index++) {
                 // 处理鼠标移入移出事件
                 const main = document.querySelector("#" + id) as HTMLElement;
                 main.onmouseover = function () {
-                    console.log(this)
                     clearInterval(timerId);
                 }
                 main.onmouseout = function () {

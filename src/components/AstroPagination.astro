@@ -1,0 +1,72 @@
+---
+import icon_chevron_left from "../assets/icons/icon_chevron_left.png";
+import icon_chevron_right from "../assets/icons/icon_chevron_right.png";
+
+const {
+    id,
+    pageInfo,
+    hidden
+} = Astro.props;
+
+let btnList = new Array();
+if (pageInfo !== null && pageInfo !== undefined) {
+    let pageNo = pageInfo['pageNo']; // 当前页码
+    let pageSize = pageInfo['pageSize']; // 总页数
+    for (let index = 0; index < Number(pageSize); index++) {
+        btnList.push({
+            label: index + 1,
+            current: index === Number(pageNo)
+        });
+    }
+}
+
+---
+
+<astro-pagination
+    data-id={id}
+>
+    <div class="btn-toolbar" role="toolbar" hidden={btnList.length <= 0 || hidden === "true"}>
+        <div class="btn-group me-2" role="group">
+            <img src={icon_chevron_left.src} />
+        </div>
+        <div class="btn-group me-2" role="group" id={`${id}_paginatBtnGroupId`}>
+            {
+                btnList.map((page) => (
+                    <button type="button" class="btn btn-light" style="border-radius: 0; color: var(--tone)">{page['label']}</button>
+                ))
+            }
+        </div>
+        <div class="btn-group me-3" role="group">
+            <img src={icon_chevron_right.src} />
+        </div>
+        <div class="btn-group me-4" role="group">
+            <div class="input-group-text" id={`${id}_paginatBtnGroupTextId`} style="border: 0">跳至</div>
+            <input type="text" class="form-control" placeholder="请输入内容" style="width: 105px" aria-describedby={`${id}_paginatBtnGroupTextId`}>
+            <div class="input-group-text">/20页</div>
+        </div>
+    </div>
+</astro-pagination>
+
+<script>
+    class AstroPagination extends HTMLElement {
+        constructor() {
+            super();
+
+            const id = this.dataset.id;
+
+            // const btnGroup = document.querySelector("#" + id + "_paginatBtnGroupId") as HTMLElement;
+            // const buttons = btnGroup.childNodes;
+            // for (let index = 0; index < buttons.length; index++) {
+            //     let button = buttons[index];
+            //     button.addEventListener("click", function () {
+            //         let _this = this as HTMLElement;
+            //         if (!isNaN(parseInt(_this.innerHTML))) {
+            //             handleContent(_this.id, Number(_this.innerHTML));
+            //         }
+            //     })
+            // }
+        }
+    }
+
+    customElements.define("astro-pagination", AstroPagination);
+</script>

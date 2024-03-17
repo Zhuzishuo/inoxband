@@ -1,0 +1,75 @@
+---
+const { article, url, cardInfo } = Astro.props;
+
+const border =
+    cardInfo !== null && cardInfo !== undefined && cardInfo.border === "true"
+        ? ""
+        : "var(--white)";
+
+const Tag =
+    cardInfo !== null &&
+    cardInfo !== undefined &&
+    cardInfo.titleType !== null &&
+    cardInfo.titleType !== undefined &&
+    cardInfo.titleType !== ""
+        ? cardInfo.titleType
+        : "h5";
+
+const { cover, title, description, author } = article;
+
+// 文本显示样式，不超过2行
+let textStyle = {
+    overflow: "hidden",
+    "text-overflow": "ellipsis",
+    display: "-webkit-box",
+    "-webkit-box-orient": "vertical",
+    "-webkit-line-clamp": 2,
+};
+// 标题显示样式
+let titleStyle = Object.assign(textStyle, {
+    // 文本字体
+    color: "rgba(0,0,0)",
+    // 去除下划线
+    outline: "none",
+    "text-decoration": "none",
+});
+---
+
+<astro-card-item>
+    <div
+        class="list-group-item"
+        style={{
+            "border-color": border,
+        }}
+    >
+        <div class="row g-0">
+            <div class="col-md-4" style={{ "text-align": "center" }}>
+                <img
+                    src={cover}
+                    class="img-fluid"
+                    style={{
+                        "border-radius": "4px",
+                        "object-fit": "cover",
+                        padding: "var(--bs-card-spacer-y) 0",
+                    }}
+                />
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <Tag class="card-title">
+                        <a href={url} style={titleStyle}>{title}</a>
+                    </Tag>
+                    <p
+                        class="card-text"
+                        hidden={description === null ||
+                            description === undefined}
+                        style={textStyle}
+                    >
+                        {description}
+                    </p>
+                    <small class="text-muted">{author}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</astro-card-item>

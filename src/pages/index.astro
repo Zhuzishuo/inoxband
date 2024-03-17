@@ -1,14 +1,12 @@
 ---
 import icon_title_caigouhangqing from "../assets/icons/icon_title_caigouhangqing.png";
-import icon_title_news from "../assets/icons/icon_title_news.png";
-import icon_title_pingpaihezuo from "../assets/icons/icon_title_pingpaihezuo.png";
 
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import AstroCarousel from '../components/AstroCarousel.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
-import { slides, content, content2, content3 } from '../content/mockData';
+import { slides, content3 } from '../content/mockData';
 import AstroListGroup from '../components/AstroListGroup.astro';
 import AstroCardGroup from '../components/AstroCardGroup.astro';
 ---
@@ -31,10 +29,10 @@ import AstroCardGroup from '../components/AstroCardGroup.astro';
 			</div>
 			<div class="row">
 				<div class="industry-news">
-					<AstroCardGroup id="yyy" title="行业新闻" iconUrl={icon_title_news.src} btnText="查看更多" btnHref="/blog" content={content} isShowPagination="true"></AstroCardGroup>
+					<AstroCardGroup id="industry-news" module="industry-news"></AstroCardGroup>
 				</div>
 				<div class="company-profile">
-					<AstroCardGroup id="zzz" title="公司介绍" iconUrl={icon_title_pingpaihezuo.src} btnText="查看更多" width="340px" content={content2} titleSize="h6" borderColor="var(--white)"></AstroCardGroup>
+					<AstroCardGroup id="company-profile" module="company-profile" width="340px"></AstroCardGroup>
 				</div>
 			</div>
 		</main>
