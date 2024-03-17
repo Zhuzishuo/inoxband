@@ -38,7 +38,7 @@ export function getCardInfo(module) {
             title: "采购行情",
             icon: icon_title_caigouhangqing.src,
             btnText: "查看更多",
-            btnHref: "/blog",
+            btnHref: "/inoxband/about",
             borderHeight: "72px"
         }
     } else if (module === 'industry-news') {
@@ -46,7 +46,7 @@ export function getCardInfo(module) {
             title: "行业新闻",
             icon: icon_title_news.src,
             btnText: "查看更多",
-            btnHref: "/blog",
+            btnHref: "/inoxband/about",
             border: "true"
         }
     } else if (module === 'company-profile') {
@@ -54,7 +54,7 @@ export function getCardInfo(module) {
             title: "公司介绍",
             icon: icon_title_pingpaihezuo.src,
             btnText: "查看更多",
-            btnHref: "/blog",
+            btnHref: "/inoxband/about",
             titleType: "h6",
             hiddenPagination: "true"
         }
